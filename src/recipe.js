@@ -1,5 +1,4 @@
 import React, { useState } from 'react' 
-import style from './recipe.module.css';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
@@ -13,7 +12,8 @@ function IngredientsModal(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-      >
+      > 
+      <div className="modal-theme">
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Ingredients
@@ -29,6 +29,7 @@ function IngredientsModal(props) {
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
+      </div>
       </Modal>
     );
   }
@@ -38,7 +39,7 @@ const Recipe = ({title, calories, image, ingredients, source, url}) => {
     const [modalShow, setModalShow] = useState(false);
 
     return (
-        <Card className={style.card}>
+        <Card className='card'>
           <Card.Img variant="top" src={image} />
           <Card.Body className="d-flex flex-column">
               <Card.Title>{title}</Card.Title>
@@ -55,7 +56,7 @@ const Recipe = ({title, calories, image, ingredients, source, url}) => {
               />
 
           </Card.Body>
-          <Card.Footer>
+          <Card.Footer className="card-footer">
             <small className="text-muted">By <a href={url} rel="noopener noreferrer" target="_blank">{source}</a></small>
           </Card.Footer>
         </Card>
