@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Recipe from './recipe'
-import style from './app.module.css';
-import { Container, Row, Button, FormControl, InputGroup} from 'react-bootstrap' 
+//import style from './app.module.css';
+import { Container, Row, Button, FormControl, InputGroup} from 'react-bootstrap'
+//import InputRange from 'react-input-range'; 
+//import 'react-input-range/lib/css/index.css'
+const shortid = require('shortid');
 require('dotenv').config()
 
 const App = () => {
@@ -13,7 +16,7 @@ const App = () => {
   const [search, setSearch] = useState('')
   const [query, setQuery] = useState('chicken')
 
-  const URL = `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free`
+  const URL = `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}&calories=0-5000`
 
   useEffect(() => {
     fetchRecipes()
@@ -39,6 +42,7 @@ const App = () => {
   return (
     <div>
     <Container>
+
       <div>
         <form onSubmit={getSearch}>
           <InputGroup className="col-6" style={{marginTop: 15+'px'}}>
@@ -54,12 +58,20 @@ const App = () => {
         </form>
       </div>
       <Row className="justify-content-center">
-        {recipes.map(recipe => (
-          <Recipe title={recipe.recipe.label} calories={recipe.recipe.calories} 
+        {recipes.length === 0 ? (
+          <div>
+            <h3 style={{marginTop: 15+'px'}}>No recipes found please try again</h3>
+          </div>
+        ) : (
+        recipes.map(recipe => (
+          <Recipe title={recipe.recipe.label} calories={recipe.recipe.calories}
+            source={recipe.recipe.source} 
+            url={recipe.recipe.url}
             image={recipe.recipe.image}
             ingredients={recipe.recipe.ingredients}
-            key={recipe.recipe.label}/>
-        ))}
+            key={shortid.generate()}/>
+        ))
+        )}
         </Row>
       </Container>
     </div>

@@ -1,9 +1,12 @@
 import React, { useState } from 'react' 
 import style from './recipe.module.css';
 import Card from 'react-bootstrap/Card';
+import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal'
-function MyVerticallyCenteredModal(props) {
+const shortid = require('shortid');
+
+function IngredientsModal(props) {
     return (
       <Modal
         {...props}
@@ -31,26 +34,30 @@ function MyVerticallyCenteredModal(props) {
   }
   
 
-const Recipe = ({title, calories, image, ingredients}) => {
+const Recipe = ({title, calories, image, ingredients, source, url}) => {
     const [modalShow, setModalShow] = useState(false);
 
     return (
         <Card className={style.card}>
-        <Card.Img variant="top" src={image} />
-        <Card.Body>
-            <Card.Title>{title}</Card.Title>
-            <Card.Text>{Math.round(calories)}</Card.Text>
-            <Button variant="primary" onClick={() => setModalShow(true)}>
-                See ingredients
-            </Button>
+          <Card.Img variant="top" src={image} />
+          <Card.Body className="d-flex flex-column">
+              <Card.Title>{title}</Card.Title>
+              <Card.Text>Calories: {Math.round(calories)}</Card.Text>
+              <Button className="mt-auto" variant="primary" onClick={() => setModalShow(true)}>
+                  See ingredients
+              </Button>
 
-            <MyVerticallyCenteredModal
-                show={modalShow}
-                ingredients={ingredients}
-                onHide={() => setModalShow(false)}
-            />
+              <IngredientsModal
+                  key={shortid.generate()}
+                  show={modalShow}
+                  ingredients={ingredients}
+                  onHide={() => setModalShow(false)}
+              />
 
-        </Card.Body>
+          </Card.Body>
+          <Card.Footer>
+            <small className="text-muted">By <a href={url} rel="noopener noreferrer" target="_blank">{source}</a></small>
+          </Card.Footer>
         </Card>
     )
 }
